@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipebook.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\Recipebook.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipe.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\Recipe.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Pantry.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\Pantry.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\PantryItem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\PantryItem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\RecipeBook.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\RecipeBook.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipe.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\Recipe.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Pantry.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\Pantry.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\PantryItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{24E0695D-D0B2-4CB8-B8A2-F056C7ED566A}|PantryChef\\PantryChef.vcxproj|solutionrelative:PantryChef\\PantryItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Recipebook.h",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipebook.h",
+              "RelativeDocumentMoniker": "PantryChef\\Recipebook.h",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipebook.h",
+              "RelativeToolTip": "PantryChef\\Recipebook.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-27T01:01:31.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Recipe.h",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipe.h",
+              "RelativeDocumentMoniker": "PantryChef\\Recipe.h",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipe.h",
+              "RelativeToolTip": "PantryChef\\Recipe.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-27T01:01:16.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Pantry.h",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Pantry.h",
+              "RelativeDocumentMoniker": "PantryChef\\Pantry.h",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Pantry.h",
+              "RelativeToolTip": "PantryChef\\Pantry.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-27T01:01:05.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PantryItem.h",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\PantryItem.h",
+              "RelativeDocumentMoniker": "PantryChef\\PantryItem.h",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\PantryItem.h",
+              "RelativeToolTip": "PantryChef\\PantryItem.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-27T01:00:57.108Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RecipeBook.cpp",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\RecipeBook.cpp",
+              "RelativeDocumentMoniker": "PantryChef\\RecipeBook.cpp",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\RecipeBook.cpp",
+              "RelativeToolTip": "PantryChef\\RecipeBook.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-27T01:00:46.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Recipe.cpp",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipe.cpp",
+              "RelativeDocumentMoniker": "PantryChef\\Recipe.cpp",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Recipe.cpp",
+              "RelativeToolTip": "PantryChef\\Recipe.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-27T01:00:33.04Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Pantry.cpp",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Pantry.cpp",
+              "RelativeDocumentMoniker": "PantryChef\\Pantry.cpp",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\Pantry.cpp",
+              "RelativeToolTip": "PantryChef\\Pantry.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-27T01:00:19.617Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PantryItem.cpp",
+              "DocumentMoniker": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\PantryItem.cpp",
+              "RelativeDocumentMoniker": "PantryChef\\PantryItem.cpp",
+              "ToolTip": "C:\\Users\\annma\\Downloads\\TAPC- Project - Programming 2\\PantryChef\\PantryChef\\PantryItem.cpp",
+              "RelativeToolTip": "PantryChef\\PantryItem.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-27T01:00:08.67Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
