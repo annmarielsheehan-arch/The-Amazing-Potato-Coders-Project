@@ -41,7 +41,7 @@
     <ClInclude Include="Recipe.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Recipebook.h">
+    <ClInclude Include="RecipeBook.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
