@@ -9,7 +9,7 @@
 
 - Operating System: Windows 11
 - Editor: VS Code
-- Compiler: g++ 14.x (MSYS2 MinGW-w64) (confirm with `g++ --version` and update if different)
+- Compiler: g++ 14.x (MSYS2 MinGW-w64)
 - C++ standard: C++17
 - Dependencies: None (standard library only)
 
@@ -87,7 +87,7 @@ Pantry sorted by expiration date:
 
 | Member | Own commit & change | Teammate update checked | Build result & setup correction |
 |---|---|---|---|
-| Annmarie Sheehan | Creating Project and answering question 3 in README.md | Maria Serpa | Saw changes, added to readme  |
+| Annmarie Sheehan | Creating Project and answering question 3 in README.md | Maria Serpa |Saw changes, added to readme  |
 | Maria Serpa | Added to the README.md in the folder for PantryChef, and added an overall README.md file  | Annmarie Sheehan | Saw changes & everything looks good.   |
 
 ## Known limitations
