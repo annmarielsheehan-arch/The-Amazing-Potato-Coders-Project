@@ -17,15 +17,14 @@
 
 From the project folder in a terminal:
 
-```
-g++ -std=c++17 -Wall -Wextra -o pantrychef *.cpp
-.\pantrychef.exe
-```
-
-If the `*.cpp` wildcard does not work in your shell, list the files:
-
+To compile: 
 ```
 g++ -std=c++17 -Wall -Wextra -o pantrychef main.cpp Pantry.cpp PantryItem.cpp Recipe.cpp RecipeBook.cpp
+```
+
+To run: 
+```
+.\pantrychef.exe
 ```
 
 ## Current status (Checkpoint 5)
@@ -88,8 +87,8 @@ Pantry sorted by expiration date:
 
 | Member | Own commit & change | Teammate update checked | Build result & setup correction |
 |---|---|---|---|
-| Annmarie Sheehan | Creating Project and answering question 3 in README.md | Maria Serpa | |
-| Maria Serpa | | Annmarie Sheehan | |
+| Annmarie Sheehan | Creating Project and answering question 3 in README.md | Maria Serpa | Saw changes, added to readme  |
+| Maria Serpa | Added to the README.md in the folder for PantryChef, and added an overall README.md file  | Annmarie Sheehan | Saw changes & everything looks good.   |
 
 ## Known limitations
 
