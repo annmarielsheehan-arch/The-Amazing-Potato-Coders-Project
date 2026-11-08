@@ -34,11 +34,11 @@ int main() {
     } catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << "\n";
     }
-    pantry.removeAmount("eggs", 2);  // program still works after the errors
+    pantry.removeAmount("eggs", 2);  
     show(pantry, ByExpiration());
 
     std::cout << "\n== 4. Date validation ==\n";
-    const char* dates[] = {"2028-02-29", "2027-02-09", "2026-13-01", "not-a-date", "2026-1-5"};
+    const char* dates[] = {"2028-02-29", "2027-02-29", "2026-13-01", "not-a-date", "2026-1-5"};
     for (const char* d : dates) {
         try {
             pantry.addItem(PantryItem("rice", 1, "cups", d));
