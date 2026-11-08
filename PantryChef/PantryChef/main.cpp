@@ -36,5 +36,17 @@ int main() {
     }
     pantry.removeAmount("eggs", 2);  // program still works after the errors
     show(pantry, ByExpiration());
+
+    std::cout << "\n== 4. Date validation ==\n";
+    const char* dates[] = {"2028-02-29", "2027-02-09", "2026-13-01", "not-a-date", "2026-1-5"};
+    for (const char* d : dates) {
+        try {
+            pantry.addItem(PantryItem("rice", 1, "cups", d));
+            std::cout <<"Accepted: " << d<< "\n";
+        } catch (const std::exception& e) {
+            std::cout << "Rejected" << d<< ": " << e.what() << "\n";
+        }
+    }
+    show(pantry, ByExpiration());
     return 0;
 }
