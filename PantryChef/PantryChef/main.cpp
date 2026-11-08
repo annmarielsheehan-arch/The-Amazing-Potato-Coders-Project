@@ -44,7 +44,7 @@ int main() {
             pantry.addItem(PantryItem("rice", 1, "cups", d));
             std::cout <<"Accepted: " << d<< "\n";
         } catch (const std::exception& e) {
-            std::cout << "Rejected" << d<< ": " << e.what() << "\n";
+            std::cout << "Rejected " << d<< ": " << e.what() << "\n";
         }
     }
     show(pantry, ByExpiration());
