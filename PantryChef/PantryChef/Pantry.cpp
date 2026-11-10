@@ -3,9 +3,23 @@
 #include <sstream>
 #include <stdexcept>
 
+namespace {
+    std::string toLower(std::string s) {
+        for (char& c : s) {
+            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
+        return s;
+    }
+
+
+bool sameItem(const std::string& a, const std::string& b) {
+    return toLower(a) == toLower(b);
+}
+}
+
 void Pantry::addItem(const PantryItem& item) {
     for (auto& existing : items_) {
-        if (existing.name() == item.name()) {
+        if (sameItem(existing.name(),item.name())){
             existing.add(item.amount());
             return;
         }

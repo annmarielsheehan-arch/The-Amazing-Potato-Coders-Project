@@ -23,7 +23,17 @@ int main() {
     std::cout << "\n== 2. Second derived behavior ==\n";
     show(pantry, ByName());
 
+
+
     std::cout << "\n== 3. Invalid operation and continued use ==\n";
+
+    std::cout << "\n== Case-insentitive names==\n";
+    Pantry capTest;
+    capTest.addItem(PantryItem("eggs", 1, "count", "2026-11-13"));
+    capTest.addItem(PantryItem("EGGS", 6, "count", "2026-11-13"));
+    capTest.addItem(PantryItem("Eggs", 4, "count", "2026-11-13"));
+    show(capTest, ByName());
+
     try {
         pantry.removeAmount("milk", 3);
     } catch (const std::exception& e) {
