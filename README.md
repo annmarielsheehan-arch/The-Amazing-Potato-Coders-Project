@@ -3,7 +3,7 @@
 **PantryChef** is a C++ application with a Qt GUI that helps a college student track the food in their pantry and when it expires, see which recipes can be made right now, and build a shopping list for a recipe.
 
 **Team:** The Amazing Potato Coders: Annmarie Sheehan and Maria Serpa  
-**Course:** Programming II (C++), FGCU
+**Course:** Programming II 
 
 ## Setup
 
