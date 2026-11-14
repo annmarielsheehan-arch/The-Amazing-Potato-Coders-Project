@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include <QAbstractItemView>
+#include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QGroupBox>
@@ -22,12 +23,12 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent) {
     app_.loadSampleData();
     buildUi();
     refreshPantry();
-    showMessage(QString("Ready. Sample pantry and recipes are loaded."), false);
+    showMessage(QString("Ready. Sample pantry and recipes are loaded."), Level::Info);
 }
 
 void MainWindow::buildUi() {
     setWindowTitle(QString("PantryChef"));
-    resize(1000, 620);
+    resize(1000, 700);
 
     QGroupBox* pantryBox = new QGroupBox(QString("Task 1: Manage the pantry"));
 
@@ -56,6 +57,9 @@ void MainWindow::buildUi() {
     sortBox_->addItem(QString("Expiration date (soonest first)"));
     sortBox_->addItem(QString("Name (A-Z)"));
 
+    searchEdit_ = new QLineEdit;
+    searchEdit_->setPlaceholderText(QString("Type part of an item name to filter the list"));
+
     pantryTable_ = new QTableWidget(0, 4);
     QStringList headers;
     headers << QString("Item") << QString("Amount") << QString("Unit") << QString("Expires");
@@ -64,16 +68,31 @@ void MainWindow::buildUi() {
     pantryTable_->setSelectionBehavior(QAbstractItemView::SelectRows);
     pantryTable_->horizontalHeader()->setStretchLastSection(true);
 
+    fileEdit_ = new QLineEdit;
+    fileEdit_->setText(QString("pantry_data.txt"));
+    QPushButton* saveButton = new QPushButton(QString("Save"));
+    QPushButton* loadButton = new QPushButton(QString("Load"));
+    QHBoxLayout* fileRow = new QHBoxLayout;
+    fileRow->addWidget(new QLabel(QString("File:")));
+    fileRow->addWidget(fileEdit_, 1);
+    fileRow->addWidget(saveButton);
+    fileRow->addWidget(loadButton);
+
     QVBoxLayout* pantryLayout = new QVBoxLayout(pantryBox);
     pantryLayout->addLayout(form);
     pantryLayout->addLayout(buttonRow);
     pantryLayout->addWidget(new QLabel(QString("Sort the pantry list by:")));
     pantryLayout->addWidget(sortBox_);
+    pantryLayout->addWidget(new QLabel(QString("Search by name:")));
+    pantryLayout->addWidget(searchEdit_);
     pantryLayout->addWidget(pantryTable_);
+    pantryLayout->addWidget(new QLabel(QString("Save or load the pantry (a text file):")));
+    pantryLayout->addLayout(fileRow);
 
     QGroupBox* recipeGroup = new QGroupBox(QString("Tasks 2 and 3: Recipes"));
 
     QPushButton* whatButton = new QPushButton(QString("Task 2: What can I make?"));
+    onlyReadyBox_ = new QCheckBox(QString("Only show recipes I can make now"));
 
     recipeBox_ = new QComboBox;
     for (const std::string& name : app_.recipeNames()) {
@@ -86,6 +105,7 @@ void MainWindow::buildUi() {
 
     QVBoxLayout* recipeLayout = new QVBoxLayout(recipeGroup);
     recipeLayout->addWidget(whatButton);
+    recipeLayout->addWidget(onlyReadyBox_);
     recipeLayout->addWidget(new QLabel(QString("Choose a recipe for the shopping list:")));
     recipeLayout->addWidget(recipeBox_);
     recipeLayout->addWidget(shopButton);
@@ -94,7 +114,7 @@ void MainWindow::buildUi() {
 
     statusLabel_ = new QLabel;
     statusLabel_->setWordWrap(true);
-    statusLabel_->setMinimumHeight(28);
+    statusLabel_->setMinimumHeight(40);
 
     QHBoxLayout* columns = new QHBoxLayout;
     columns->addWidget(pantryBox, 3);
@@ -108,14 +128,17 @@ void MainWindow::buildUi() {
     connect(removeButton, &QPushButton::clicked, this, [this]() { onRemoveAmount(); });
     connect(whatButton, &QPushButton::clicked, this, [this]() { onWhatCanIMake(); });
     connect(shopButton, &QPushButton::clicked, this, [this]() { onShoppingList(); });
+    connect(saveButton, &QPushButton::clicked, this, [this]() { onSave(); });
+    connect(loadButton, &QPushButton::clicked, this, [this]() { onLoad(); });
     connect(sortBox_, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             [this](int) { refreshPantry(); });
+    connect(searchEdit_, &QLineEdit::textChanged, this, [this](const QString&) { refreshPantry(); });
 }
 
 void MainWindow::refreshPantry() {
     PantryApp::SortMode mode = (sortBox_->currentIndex() == 1) ? PantryApp::SortMode::ByName
                                                               : PantryApp::SortMode::ByExpiration;
-    std::vector<PantryItem> items = app_.pantryItems(mode);
+    std::vector<PantryItem> items = app_.pantryItems(mode, searchEdit_->text().toStdString());
 
     pantryTable_->setRowCount(static_cast<int>(items.size()));
     for (int row = 0; row < static_cast<int>(items.size()); ++row) {
@@ -127,10 +150,13 @@ void MainWindow::refreshPantry() {
     }
 }
 
-void MainWindow::showMessage(const QString& text, bool isError) {
-    if (isError) {
+void MainWindow::showMessage(const QString& text, Level level) {
+    if (level == Level::Error) {
         statusLabel_->setStyleSheet(QString("color: #b00020; font-weight: bold;"));
         statusLabel_->setText(QString("Error: ") + text);
+    } else if (level == Level::Warning) {
+        statusLabel_->setStyleSheet(QString("color: #b26a00; font-weight: bold;"));
+        statusLabel_->setText(QString("Warning: ") + text);
     } else {
         statusLabel_->setStyleSheet(QString("color: #1b5e20;"));
         statusLabel_->setText(text);
@@ -147,9 +173,9 @@ void MainWindow::onAddItem() {
         unitEdit_->clear();
         dateEdit_->clear();
         refreshPantry();
-        showMessage(message, false);
+        showMessage(message, Level::Info);
     } catch (const std::exception& e) {
-        showMessage(QString::fromStdString(e.what()), true);
+        showMessage(QString::fromStdString(e.what()), Level::Error);
     }
 }
 
@@ -159,15 +185,15 @@ void MainWindow::onRemoveAmount() {
         QString message = QString("Removed ") + amountEdit_->text().trimmed() + QString(" of ") +
                           nameEdit_->text().trimmed() + QString(".");
         refreshPantry();
-        showMessage(message, false);
+        showMessage(message, Level::Info);
     } catch (const std::exception& e) {
-        showMessage(QString::fromStdString(e.what()), true);
+        showMessage(QString::fromStdString(e.what()), Level::Error);
     }
 }
 
 void MainWindow::onWhatCanIMake() {
     try {
-        std::vector<RecipeStatus> statuses = app_.whatCanIMake();
+        std::vector<RecipeStatus> statuses = app_.whatCanIMake(onlyReadyBox_->isChecked());
         QString out;
         for (const RecipeStatus& s : statuses) {
             out += QString::fromStdString(s.name) + QString(": ");
@@ -178,10 +204,13 @@ void MainWindow::onWhatCanIMake() {
             }
             out += QString("\n");
         }
+        if (statuses.empty()) {
+            out = QString("No recipes can be made with the current pantry.\n");
+        }
         resultsView_->setPlainText(out);
-        showMessage(QString("Checked %1 recipes against the pantry.").arg(static_cast<int>(statuses.size())), false);
+        showMessage(QString("Showing %1 recipe(s).").arg(static_cast<int>(statuses.size())), Level::Info);
     } catch (const std::exception& e) {
-        showMessage(QString::fromStdString(e.what()), true);
+        showMessage(QString::fromStdString(e.what()), Level::Error);
     }
 }
 
@@ -200,8 +229,29 @@ void MainWindow::onShoppingList() {
                        .arg(QString::fromStdString(m.name));
         }
         resultsView_->setPlainText(out);
-        showMessage(QString("Built the shopping list for ") + recipe + QString("."), false);
+        showMessage(QString("Built the shopping list for ") + recipe + QString("."), Level::Info);
     } catch (const std::exception& e) {
-        showMessage(QString::fromStdString(e.what()), true);
+        showMessage(QString::fromStdString(e.what()), Level::Error);
+    }
+}
+
+void MainWindow::onSave() {
+    try {
+        std::size_t count = app_.saveTo(fileEdit_->text().toStdString());
+        showMessage(QString("Saved %1 items to %2.").arg(static_cast<int>(count)).arg(fileEdit_->text().trimmed()),
+                    Level::Info);
+    } catch (const std::exception& e) {
+        showMessage(QString::fromStdString(e.what()), Level::Error);
+    }
+}
+
+void MainWindow::onLoad() {
+    try {
+        LoadSummary summary = app_.loadFrom(fileEdit_->text().toStdString());
+        refreshPantry();
+        showMessage(QString::fromStdString(summary.message),
+                    summary.skipped > 0 ? Level::Warning : Level::Info);
+    } catch (const std::exception& e) {
+        showMessage(QString::fromStdString(e.what()), Level::Error);
     }
 }

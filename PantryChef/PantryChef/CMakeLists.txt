@@ -9,6 +9,7 @@ add_library(pantry_core STATIC
     Pantry.cpp
     Recipe.cpp
     RecipeBook.cpp
+    PantryStorage.cpp
     PantryApp.cpp)
 target_include_directories(pantry_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -22,3 +23,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 set(CMAKE_AUTOMOC ON)
 add_executable(pantrychef_gui gui/gui_main.cpp gui/MainWindow.cpp gui/MainWindow.h)
 target_link_libraries(pantrychef_gui PRIVATE pantry_core Qt6::Widgets)
+
+add_executable(debug_date tests/debug_date.cpp)
+target_link_libraries(debug_date PRIVATE pantry_core)

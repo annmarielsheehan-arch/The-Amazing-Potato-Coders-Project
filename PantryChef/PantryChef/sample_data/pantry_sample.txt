@@ -1,0 +1,5 @@
+bread,8,slices,2026-11-18
+milk,2,cups,2026-11-20
+eggs,6,count,2026-11-25
+flour,4,cups,2027-03-01
+sugar,1,cups,2027-06-01

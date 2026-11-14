@@ -6,6 +6,12 @@
 #include "Recipe.h"
 #include "RecipeBook.h"
 
+struct LoadSummary {
+    int loaded = 0;
+    int skipped = 0;
+    std::string message;
+};
+
 class PantryApp {
 public:
     enum class SortMode { ByExpiration, ByName };
@@ -20,12 +26,15 @@ public:
     void addItem(const std::string& name, const std::string& amountText,
                  const std::string& unit, const std::string& expiration);
     void removeAmount(const std::string& name, const std::string& amountText);
-    std::vector<PantryItem> pantryItems(SortMode mode) const;
+    std::vector<PantryItem> pantryItems(SortMode mode, const std::string& searchText = "") const;
 
-    std::vector<RecipeStatus> whatCanIMake() const;
+    std::vector<RecipeStatus> whatCanIMake(bool onlyReady = false) const;
 
     std::vector<std::string> recipeNames() const;
     std::vector<Ingredient> shoppingList(const std::string& recipeName) const;
+
+    std::size_t saveTo(const std::string& path) const;
+    LoadSummary loadFrom(const std::string& path);
 
     void loadSampleData();
 };
