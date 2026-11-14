@@ -1,6 +1,9 @@
+#include <cstdio>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
+#include "Filter.h"
 #include "PantryApp.h"
 
 static int failures = 0;
@@ -27,10 +30,8 @@ int main() {
     std::cout << "== Task 1: manage the pantry ==\n";
     app.addItem("butter", "1", "cups", "2026-12-01");
     check("valid add: butter appears in the pantry", app.pantryItems(PantryApp::SortMode::ByName).size() == 5);
-    auto byExp = app.pantryItems(PantryApp::SortMode::ByExpiration);
-    check("sorted by expiration: first item is eggs", byExp.front().name() == "eggs");
-    auto byName = app.pantryItems(PantryApp::SortMode::ByName);
-    check("sorted by name: first item is butter", byName.front().name() == "butter");
+    check("sorted by expiration: first item is eggs", app.pantryItems(PantryApp::SortMode::ByExpiration).front().name() == "eggs");
+    check("sorted by name: first item is butter", app.pantryItems(PantryApp::SortMode::ByName).front().name() == "butter");
 
     std::string e1 = errorOf([&] { app.addItem("rice", "abc", "cups", "2027-01-01"); });
     check("invalid amount text rejected: " + e1, e1 == "Amount must be a number, for example 2 or 0.5.");
@@ -38,22 +39,67 @@ int main() {
     check("invalid date rejected: " + e2, e2 == "Expiration date must be a real date in YYYY-MM-DD format.");
     std::string e3 = errorOf([&] { app.removeAmount("milk", "5"); });
     check("removing more than in stock rejected: " + e3, e3 == "Cannot remove 5 cups of milk: only 2 available.");
+    std::string e4 = errorOf([&] { app.addItem("a,b", "1", "cups", "2027-01-01"); });
+    check("comma in name rejected: " + e4, e4 == "Item name and unit cannot contain commas.");
     check("pantry unchanged after the errors (still 5 items)", app.pantryItems(PantryApp::SortMode::ByName).size() == 5);
-    app.removeAmount("eggs", "2");
-    check("valid removal still works afterward", true);
 
-    std::cout << "\n== Task 2: what can I make? ==\n";
-    for (const auto& s : app.whatCanIMake()) {
+    std::cout << "\n== Template filterBy with two data types ==\n";
+    auto matches = app.pantryItems(PantryApp::SortMode::ByName, "MI");
+    check("filterBy<PantryItem>: search \"MI\" finds only milk", matches.size() == 1 && matches[0].name() == "milk");
+    auto readyOnly = app.whatCanIMake(true);
+    check("filterBy<RecipeStatus>: only READY recipes are returned", !readyOnly.empty() && readyOnly.size() < app.whatCanIMake(false).size());
+
+    std::cout << "\n== Overload: operator<< for PantryItem ==\n";
+    std::ostringstream text;
+    text << PantryItem("milk", 0.5, "cups", "2027-01-01");
+    check("operator<< writes name,amount,unit,date: " + text.str(), text.str() == "milk,0.5,cups,2027-01-01");
+
+    std::cout << "\n== Persistence ==\n";
+    const std::string file = "app_check_pantry.txt";
+    std::size_t saved = app.saveTo(file);
+    check("save writes every item", saved == 5);
+    PantryApp fresh;
+    LoadSummary loaded = fresh.loadFrom(file);
+    check("load restores all 5 items with no skipped lines", loaded.loaded == 5 && loaded.skipped == 0);
+    auto before = app.pantryItems(PantryApp::SortMode::ByName);
+    auto after = fresh.pantryItems(PantryApp::SortMode::ByName);
+    bool same = before.size() == after.size();
+    for (std::size_t i = 0; same && i < before.size(); i++) {
+        same = before[i].name() == after[i].name() && before[i].amount() == after[i].amount() &&
+               before[i].unit() == after[i].unit() && before[i].expiration() == after[i].expiration();
+    }
+    check("restored pantry matches the saved pantry", same);
+    std::remove(file.c_str());
+
+    std::cout << "\n== File and parsing failures ==\n";
+    PantryApp target;
+    target.loadSampleData();
+    target.addItem("rice", "3", "cups", "2027-01-15");
+    std::size_t sizeBeforeFailures = target.pantryItems(PantryApp::SortMode::ByName).size();
+    std::string f1 = errorOf([&] { target.loadFrom("no_such_file.txt"); });
+    check("missing file reported: " + f1, f1.rfind("Could not open no_such_file.txt", 0) == 0);
+    std::string f2 = errorOf([&] { target.loadFrom("sample_data/pantry_empty.txt"); });
+    check("empty file reported: " + f2, f2.rfind("No valid items found", 0) == 0);
+    check("pantry unchanged after failed loads", target.pantryItems(PantryApp::SortMode::ByName).size() == sizeBeforeFailures);
+    LoadSummary partial = target.loadFrom("sample_data/pantry_malformed.txt");
+    check("malformed file: 3 valid lines loaded, 3 bad lines skipped: " + partial.message,
+          partial.loaded == 3 && partial.skipped == 3);
+    check("pantry still usable after a partial load", target.pantryItems(PantryApp::SortMode::ByName).size() == 3);
+    LoadSummary good = target.loadFrom("sample_data/pantry_sample.txt");
+    check("sample file loads cleanly", good.loaded == 5 && good.skipped == 0);
+
+    std::cout << "\n== Task 2: what can I make? (sample file loaded) ==\n";
+    for (const auto& s : target.whatCanIMake()) {
         std::cout << "      " << s.name << ": " << (s.ready ? "READY" : "missing " + std::to_string(s.missingCount)) << "\n";
     }
 
     std::cout << "\n== Task 3: shopping list ==\n";
-    auto list = app.shoppingList("Sugar Cookies");
+    auto list = target.shoppingList("Sugar Cookies");
     for (const auto& m : list) std::cout << "      " << m.amount << " " << m.unit << " " << m.name << "\n";
-    check("Sugar Cookies list contains only the missing sugar (butter was added to the pantry)", list.size() == 1);
-    check("Pancakes needs nothing", app.shoppingList("Pancakes").empty());
-    std::string e4 = errorOf([&] { app.shoppingList("Pizza"); });
-    check("unknown recipe rejected: " + e4, e4 == "Recipe not found: Pizza");
+    check("Sugar Cookies list contains only butter", list.size() == 1 && list[0].name == "butter");
+    check("Pancakes needs nothing", target.shoppingList("Pancakes").empty());
+    std::string e5 = errorOf([&] { target.shoppingList("Pizza"); });
+    check("unknown recipe rejected: " + e5, e5 == "Recipe not found: Pizza");
 
     std::cout << "\n" << (failures == 0 ? "All checks passed." : "Some checks FAILED.") << "\n";
     return failures == 0 ? 0 : 1;

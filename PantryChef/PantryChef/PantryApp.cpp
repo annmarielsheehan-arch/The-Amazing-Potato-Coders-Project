@@ -1,5 +1,7 @@
 #include "PantryApp.h"
 #include <stdexcept>
+#include "Filter.h"
+#include "PantryStorage.h"
 #include "SortStrategy.h"
 #include "TextUtil.h"
 
@@ -34,6 +36,9 @@ void PantryApp::addItem(const std::string& name, const std::string& amountText,
     if (cleanUnit.empty()) {
         throw std::invalid_argument("Unit is required, for example cups or count.");
     }
+    if (cleanName.find(',') != std::string::npos || cleanUnit.find(',') != std::string::npos) {
+        throw std::invalid_argument("Item name and unit cannot contain commas.");
+    }
     double amount = parseAmount(amountText);
     pantry_.addItem(PantryItem(cleanName, amount, cleanUnit, textutil::trim(expiration)));
 }
@@ -46,17 +51,31 @@ void PantryApp::removeAmount(const std::string& name, const std::string& amountT
     pantry_.removeAmount(cleanName, parseAmount(amountText));
 }
 
-std::vector<PantryItem> PantryApp::pantryItems(SortMode mode) const {
+std::vector<PantryItem> PantryApp::pantryItems(SortMode mode, const std::string& searchText) const {
+    std::vector<PantryItem> sortedItems;
     if (mode == SortMode::ByName) {
         ByName strategy;
-        return pantry_.sorted(strategy);
+        sortedItems = pantry_.sorted(strategy);
+    } else {
+        ByExpiration strategy;
+        sortedItems = pantry_.sorted(strategy);
     }
-    ByExpiration strategy;
-    return pantry_.sorted(strategy);
+
+    std::string needle = textutil::toLower(textutil::trim(searchText));
+    if (needle.empty()) {
+        return sortedItems;
+    }
+    return filterBy(sortedItems, [&needle](const PantryItem& item) {
+        return textutil::toLower(item.name()).find(needle) != std::string::npos;
+    });
 }
 
-std::vector<RecipeStatus> PantryApp::whatCanIMake() const {
-    return recipeBook_.statuses(pantry_);
+std::vector<RecipeStatus> PantryApp::whatCanIMake(bool onlyReady) const {
+    std::vector<RecipeStatus> statuses = recipeBook_.statuses(pantry_);
+    if (!onlyReady) {
+        return statuses;
+    }
+    return filterBy(statuses, [](const RecipeStatus& status) { return status.ready; });
 }
 
 std::vector<std::string> PantryApp::recipeNames() const {
@@ -69,6 +88,46 @@ std::vector<std::string> PantryApp::recipeNames() const {
 
 std::vector<Ingredient> PantryApp::shoppingList(const std::string& recipeName) const {
     return recipeBook_.shoppingList(recipeName, pantry_);
+}
+
+std::size_t PantryApp::saveTo(const std::string& path) const {
+    std::string cleanPath = textutil::trim(path);
+    if (cleanPath.empty()) {
+        throw std::invalid_argument("Enter a file name first.");
+    }
+    return PantryStorage::save(pantry_, cleanPath);
+}
+
+LoadSummary PantryApp::loadFrom(const std::string& path) {
+    std::string cleanPath = textutil::trim(path);
+    if (cleanPath.empty()) {
+        throw std::invalid_argument("Enter a file name first.");
+    }
+    LoadResult result = PantryStorage::load(cleanPath);
+
+    if (result.items.empty()) {
+        std::string message = "No valid items found in " + cleanPath + ". The current pantry was not changed.";
+        if (!result.problems.empty()) {
+            message += " " + result.problems.front();
+        }
+        throw std::runtime_error(message);
+    }
+
+    Pantry loaded;
+    for (const PantryItem& item : result.items) {
+        loaded.addItem(item);
+    }
+    pantry_ = loaded;
+
+    LoadSummary summary;
+    summary.loaded = static_cast<int>(result.items.size());
+    summary.skipped = static_cast<int>(result.problems.size());
+    summary.message = "Loaded " + std::to_string(summary.loaded) + " items from " + cleanPath + ".";
+    if (summary.skipped > 0) {
+        summary.message += " Skipped " + std::to_string(summary.skipped) + " bad line(s). First problem: " +
+                           result.problems.front();
+    }
+    return summary;
 }
 
 void PantryApp::loadSampleData() {

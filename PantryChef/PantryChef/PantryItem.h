@@ -1,4 +1,5 @@
 #pragma once
+#include <iosfwd>
 #include <string>
 
 class PantryItem {
@@ -6,7 +7,7 @@ private:
     std::string name_;
     double amount_;
     std::string unit_;
-    std::string expiration_;  // YYYY-MM-DD, sorts correctly as text
+    std::string expiration_;
 
 public:
     PantryItem(std::string name, double amount, std::string unit, std::string expiration);
@@ -19,3 +20,5 @@ public:
     void add(double amount);
     void remove(double amount);
 };
+
+std::ostream& operator<<(std::ostream& out, const PantryItem& item);

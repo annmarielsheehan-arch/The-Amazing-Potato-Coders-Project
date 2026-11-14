@@ -1,0 +1,7 @@
+milk,2,cups,2026-11-20
+flour,four,cups,2027-03-01
+eggs,6,count
+sugar,1,cups,2027-02-29
+bread,8,slices,2026-11-18
+
+rice,3,cups,2027-01-15
