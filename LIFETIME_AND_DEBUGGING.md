@@ -52,5 +52,3 @@ continue
 ```
 
 Expected values for `2027-02-29`: `year` 2027, `month` 2, `day` 29, `leap` false, `maxDay` 28, and `isValidDate` returns false because 29 is greater than 28. To watch a valid item being destroyed, run `break PantryItem::~PantryItem` and `continue` again.
-
-Paste your own session output (the backtrace, the local variable values, and the return value) in the Checkpoint 7 submission document.
