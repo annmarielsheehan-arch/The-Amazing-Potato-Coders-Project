@@ -26,10 +26,9 @@ pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-qt6-base ming
 git clone https://github.com/annmarielsheehan-arch/The-Amazing-Potato-Coders-Project.git
 cd The-Amazing-Potato-Coders-Project
 git checkout <exact checkpoint commit>
-cd PantryChef/PantryChef
 ```
 
-All commands below are run from this project folder, the one that contains `CMakeLists.txt`, in the MSYS2 UCRT64 terminal.
+All commands below are run from the repository root (the folder that contains `CMakeLists.txt`) in the MSYS2 UCRT64 terminal.
 
 ## Build
 
@@ -46,7 +45,7 @@ This builds four programs in `build/`: `pantrychef_gui.exe` (the GUI), `app_chec
 ./build/pantrychef_gui.exe
 ```
 
-Run it from the project folder so the relative paths to `sample_data/` work.
+Run it from the repository root so the relative paths to `sample_data/` work.
 
 ## Sample data (fictional)
 
@@ -80,6 +79,20 @@ Console check of the application rules (no GUI):
 It prints PASS or FAIL for each rule and ends with "All checks passed."
 
 ## Project structure
+
+```
+├── CMakeLists.txt
+├── README.md
+├── REQUIREMENTS.md
+├── LIFETIME_AND_DEBUGGING.md
+├── src/            model and application classes, console demo (main.cpp)
+│   └── gui/        Qt window
+├── tests/          console checks and debugger program
+├── sample_data/    fictional pantry files
+└── docs/           GUI sketch
+```
+
+All paths below are inside `src/` unless they start with `tests/`.
 
 | File | Responsibility |
 |---|---|
