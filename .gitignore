@@ -1,2 +1,25 @@
+# Build output
 build/
+out/
 *.exe
+*.obj
+*.o
+*.a
+*.lib
+*.pdb
+*.ilk
+
+# Editor / IDE files
+.vs/
+.vscode/
+*.vcxproj.user
+x64/
+Debug/
+Release/
+
+# Files created by running the program
+my_pantry.txt
+
+# OS files
+.DS_Store
+Thumbs.db
