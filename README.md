@@ -33,9 +33,11 @@ All commands below are run from the repository root (the folder that contains `C
 ## Build
 
 ```
-cmake -S . -B build -G Ninja
+cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=/ucrt64
 cmake --build build
 ```
+
+`-DCMAKE_PREFIX_PATH=/ucrt64` tells CMake to look for Qt in the MSYS2 UCRT64 install. Without it, CMake can stop with a "Could not find a package configuration file provided by Qt6" error.
 
 This builds four programs in `build/`: `pantrychef_gui.exe` (the GUI), `app_check.exe` (console checks of the application rules), `pantrychef.exe` (the console demo), and `debug_date.exe` (a small program for the debugger session).
 
