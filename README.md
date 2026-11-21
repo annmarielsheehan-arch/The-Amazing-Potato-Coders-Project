@@ -17,8 +17,10 @@
 ### Install the dependencies (MSYS2 UCRT64 terminal)
 
 ```
-pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-qt6-base mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja
+pacman -S --needed git mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-qt6-base mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja
 ```
+
+`git` is included so the clone step below works inside the UCRT64 terminal. If Git for Windows is already installed, you can clone with it instead.
 
 ## Get the code
 
