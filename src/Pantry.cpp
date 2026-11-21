@@ -29,7 +29,7 @@ void Pantry::addItem(const PantryItem& item) {
 
 void Pantry::removeAmount(const std::string& name, double amount) {
     for (auto& existing : items_) {
-        if (existing.name() == name) {
+        if (sameItem(existing.name(), name)) {
             if (amount > existing.amount()) {
                 std::ostringstream msg;
                 msg << "Cannot remove " << amount << " " << existing.unit() << " of " << name

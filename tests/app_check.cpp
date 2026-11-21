@@ -43,6 +43,23 @@ int main() {
     check("comma in name rejected: " + e4, e4 == "Item name and unit cannot contain commas.");
     check("pantry unchanged after the errors (still 5 items)", app.pantryItems(PantryApp::SortMode::ByName).size() == 5);
 
+    std::cout << "\n== Case-insensitive add and remove use the same matching ==\n";
+    PantryApp caseApp;
+    caseApp.addItem("Milk", "2", "cups", "2026-12-01");
+    caseApp.addItem("milk", "1", "cups", "2026-12-01");
+    auto caseRows = caseApp.pantryItems(PantryApp::SortMode::ByName);
+    check("milk merges into Milk (one row, 3 cups)", caseRows.size() == 1 && caseRows[0].amount() == 3);
+    std::string c1 = errorOf([&] { caseApp.removeAmount("milk", "1"); });
+    caseRows = caseApp.pantryItems(PantryApp::SortMode::ByName);
+    check("removing 1 of milk from the Milk row works (2 cups left)",
+          c1.empty() && caseRows.size() == 1 && caseRows[0].amount() == 2);
+    std::string c2 = errorOf([&] { caseApp.removeAmount("milk", "5"); });
+    check("removing more than in stock still rejected: " + c2, c2 == "Cannot remove 5 cups of milk: only 2 available.");
+    std::string c3 = errorOf([&] { caseApp.removeAmount("rice", "1"); });
+    check("removing an item that is not there still rejected: " + c3, c3 == "Item not found: rice");
+    caseRows = caseApp.pantryItems(PantryApp::SortMode::ByName);
+    check("Milk row unchanged after the two rejected removals (2 cups)", caseRows.size() == 1 && caseRows[0].amount() == 2);
+
     std::cout << "\n== Template filterBy with two data types ==\n";
     auto matches = app.pantryItems(PantryApp::SortMode::ByName, "MI");
     check("filterBy<PantryItem>: search \"MI\" finds only milk", matches.size() == 1 && matches[0].name() == "milk");
