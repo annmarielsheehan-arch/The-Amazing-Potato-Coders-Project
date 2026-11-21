@@ -53,10 +53,10 @@ int main() {
     caseRows = caseApp.pantryItems(PantryApp::SortMode::ByName);
     check("removing 1 of milk from the Milk row works (2 cups left)",
           c1.empty() && caseRows.size() == 1 && caseRows[0].amount() == 2);
-    std::string c2 = errorOf([&] { caseApp.removeAmount("milk", "5"); });
-    check("removing more than in stock still rejected: " + c2, c2 == "Cannot remove 5 cups of milk: only 2 available.");
-    std::string c3 = errorOf([&] { caseApp.removeAmount("rice", "1"); });
-    check("removing an item that is not there still rejected: " + c3, c3 == "Item not found: rice");
+    std::string c2 = errorOf([&] { caseApp.removeAmount("milk", "99"); });
+    check("removing more than in stock still rejected: " + c2, c2 == "Cannot remove 99 cups of milk: only 2 available.");
+    std::string c3 = errorOf([&] { caseApp.removeAmount("zzz", "1"); });
+    check("removing an item that is not there still rejected: " + c3, c3 == "Item not found: zzz");
     caseRows = caseApp.pantryItems(PantryApp::SortMode::ByName);
     check("Milk row unchanged after the two rejected removals (2 cups)", caseRows.size() == 1 && caseRows[0].amount() == 2);
 
