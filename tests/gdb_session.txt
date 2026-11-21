@@ -1,0 +1,35 @@
+Breakpoint 1 at 0x1400019ce: file src/PantryItem.cpp, line 19.
+[New Thread 12632.0x87fc]
+[New Thread 12632.0x9190]
+[New Thread 12632.0x1bbc]
+
+Thread 1 hit Breakpoint 1, (anonymous namespace)::isValidDate (d="2027-02-29") at src/PantryItem.cpp:19
+19	    if (d.size() != 10 || d[4] != '-' || d[7] != '-') return false;
+#0  (anonymous namespace)::isValidDate (d="2027-02-29") at src/PantryItem.cpp:19
+#1  0x00007ff6d1991d5b in PantryItem::PantryItem (this=0x5ffce0, name="", amount=1, unit="", expiration="") at src/PantryItem.cpp:40
+#2  0x00007ff6d1991574 in main () at tests/debug_date.cpp:6
+d = "2027-02-29"
+(anonymous namespace)::isValidDate (d="2027-02-29") at src/PantryItem.cpp:30
+30	    return day <= maxDay;
+year = 2027
+month = 2
+day = 29
+daysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+leap = false
+maxDay = 28
+0x00007ff6d1991d5b in PantryItem::PantryItem (this=0x5ffce0, name="", amount=1, unit="", expiration="") at src/PantryItem.cpp:40
+40	    if (!isValidDate(expiration_)) {
+Value returned is $1 = false
+Breakpoint 2 at 0x7ff6d199336c: file src/PantryItem.h, line 5.
+
+Thread 1 hit Breakpoint 2, PantryItem::~PantryItem (this=0x5ffce0) at src/PantryItem.h:5
+5	class PantryItem {
+#0  PantryItem::~PantryItem (this=0x5ffce0) at src/PantryItem.h:5
+#1  0x00007ff6d199176d in main () at tests/debug_date.cpp:15
+Rejected: Expiration date must be a real date in YYYY-MM-DD format.
+created rice,1,cups,2028-02-29
+good has been destroyed
+[Thread 12632.0x87fc exited with code 0]
+[Thread 12632.0x9190 exited with code 0]
+[Thread 12632.0x1bbc exited with code 0]
+[Inferior 1 (process 12632) exited normally]

@@ -29,26 +29,46 @@ Question investigated: why is the date `2027-02-29` rejected, and when is a vali
 
 Program: `tests/debug_date.cpp`, which builds one invalid item inside `try`, then one valid item inside its own scope.
 
-Setup (MSYS2 UCRT64 terminal, from the project folder):
+Setup (MSYS2 UCRT64 terminal, from the repository root):
 
 ```
 pacman -S --needed mingw-w64-ucrt-x86_64-gdb
-g++ -g -O0 -std=c++17 -I. -o debug_date tests/debug_date.cpp PantryItem.cpp
-gdb ./debug_date.exe
+g++ -g -O0 -std=c++17 -Isrc -o debug_date tests/debug_date.cpp src/PantryItem.cpp
+gdb --batch -x tests/gdb_commands.txt ./debug_date.exe 2>&1 | tee tests/gdb_session.txt
 ```
 
-Commands to record in gdb:
+`--batch` runs the commands in [tests/gdb_commands.txt](tests/gdb_commands.txt) and exits; `tee` saves the output and prints it at the same time.
+
+Commands in `tests/gdb_commands.txt`:
 
 ```
+set pagination off
+set confirm off
 break isValidDate
 run
 bt
 info args
-next
-next
+until 30
 info locals
 finish
+delete
+break PantryItem::~PantryItem
+continue
+bt
 continue
 ```
 
-Expected values for `2027-02-29`: `year` 2027, `month` 2, `day` 29, `leap` false, `maxDay` 28, and `isValidDate` returns false because 29 is greater than 28. To watch a valid item being destroyed, run `break PantryItem::~PantryItem` and `continue` again.
+`until 30` runs to line 30 of `src/PantryItem.cpp` (`return day <= maxDay;`), where every local has been computed. `delete` removes the first breakpoint so the run stops at the destructor and not at the second `isValidDate` call for `2028-02-29`.
+
+**Recorded session:** [tests/gdb_session.txt](tests/gdb_session.txt) (GNU gdb 17.2, g++ 16.1.0, MSYS2 UCRT64).
+
+What the session showed for `2027-02-29`:
+
+| Expected | Observed in gdb |
+|---|---|
+| `year` 2027, `month` 2, `day` 29 | `year = 2027`, `month = 2`, `day = 29` |
+| `leap` false, `maxDay` 28 | `leap = false`, `maxDay = 28` |
+| `isValidDate` returns false | `Value returned is $1 = false`, back in `PantryItem::PantryItem` at line 40, which then throws |
+| The valid item is destroyed when its scope ends | `PantryItem::~PantryItem (this=0x5ffce0)` called from `main () at tests/debug_date.cpp:15`, the closing brace of the block |
+
+Notes on reading the output: in the constructor frame, `name`, `unit` and `expiration` show as `""` because the constructor has already moved them into the members. The program's own output (`Rejected: ...`, `created ...`, `good has been destroyed`) appears at the end because its standard output is buffered when it goes into a pipe. The destructor stopped at the same address (`0x5ffce0`) as the rejected object because the two objects live in separate blocks and the compiler reused the same stack space for them.

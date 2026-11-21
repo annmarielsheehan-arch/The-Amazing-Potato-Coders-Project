@@ -1,0 +1,14 @@
+set pagination off
+set confirm off
+break isValidDate
+run
+bt
+info args
+until 30
+info locals
+finish
+delete
+break PantryItem::~PantryItem
+continue
+bt
+continue
