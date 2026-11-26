@@ -5,6 +5,10 @@
 **Team:** The Amazing Potato Coders: Annmarie Sheehan and Maria Serpa
 **Course:** Programming II
 
+## Status: ready for presentation (Checkpoint 9)
+
+This commit is the final version presented for Checkpoint 9. The presentation follows the build and run steps below, then the GUI check sequence and `app_check.exe`.
+
 ## Setup
 
 - Operating System: Windows 11
